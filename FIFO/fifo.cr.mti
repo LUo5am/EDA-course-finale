@@ -1,0 +1,29 @@
+D:/modelsim/examples/FIFO/rtl/gray_conv.v {1 {vlog -work FIFO -vopt -stats=none {D:\modelsim\examples\FIFO\rtl\gray_conv.v}
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module gray_conv
+
+Top level modules:
+	gray_conv
+
+} {} {}} D:/modelsim/examples/FIFO/rtl/fifo_ctrl.v {1 {vlog -work FIFO -vopt -stats=none D:/modelsim/examples/FIFO/rtl/fifo_ctrl.v
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module fifo_ctrl
+
+Top level modules:
+	fifo_ctrl
+
+} {} {}} D:/modelsim/examples/FIFO/rtl/async_fifo_top.v {1 {vlog -work FIFO -vopt -stats=none {D:\modelsim\examples\FIFO\rtl\async_fifo_top.v}
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module async_fifo_top
+
+Top level modules:
+	async_fifo_top
+
+} {} {}} D:/modelsim/examples/FIFO/rtl/dp_ram.v {1 {vlog -work FIFO -vopt -stats=none D:/modelsim/examples/FIFO/rtl/dp_ram.v
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module dp_ram
+
+Top level modules:
+	dp_ram
+
+} {} {}}
