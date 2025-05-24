@@ -1,0 +1,190 @@
+m255
+K4
+z2
+!s11f vlog 2020.4 2020.10, Oct 13 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/modelsim/examples/new fifo
+T_opt
+!s110 1747986643
+VhflM:gL92HSbM40b?_BoM1
+04 12 4 work tb_asyncfifo fast 0
+=1-b81ea44442e6-683028d3-1dd-8d34
+o-quiet -auto_acc_if_foreign -work work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2020.4;71
+R0
+vasync_fifo
+Z2 !s110 1748070713
+!i10b 1
+!s100 mSmRzGX<<5>HFVJ^iaMP]2
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IH?;MkmjPh62b0L`Q7WWn`0
+R0
+Z4 w1747986629
+Z5 8D:/modelsim/examples/new fifo/async_fifo.v
+Z6 FD:/modelsim/examples/new fifo/async_fifo.v
+!i122 63
+L0 2 103
+Z7 VDg1SIo80bB@j0V0VzS_@n1
+Z8 OL;L;2020.4;71
+r1
+!s85 0
+31
+Z9 !s108 1748070713.000000
+Z10 !s107 D:/modelsim/examples/new fifo/async_fifo.v|
+Z11 !s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/modelsim/examples/new fifo/async_fifo.v|
+!i113 0
+Z12 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vdual_port_ram
+R2
+!i10b 1
+!s100 :jg0KGP2=965a89@dK<Mo1
+R3
+InMN<RBP?dM<P?F7ULHm591
+R0
+R4
+R5
+R6
+!i122 63
+L0 123 24
+R7
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+R1
+vsync_cell
+R2
+!i10b 1
+!s100 ?=8oY68JW6K`7^A=ka1bV0
+R3
+IW7NnHj_SKjlF[KgHca9`n1
+R0
+R4
+R5
+R6
+!i122 63
+L0 107 14
+R7
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 0
+R12
+R1
+vtb_asyncfifo
+Z13 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z14 !s110 1748070714
+!i10b 1
+!s100 6jA@RSFS6Y7BR>CIQTRgR1
+R3
+IBdILXcoELb<ikMkNz_;6`3
+S1
+R0
+w1747981420
+8D:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv
+FD:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv
+!i122 64
+L0 3 223
+R7
+R8
+r1
+!s85 0
+31
+R9
+!s107 D:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|D:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv|
+!i113 0
+Z15 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vtb_asyncfifo_boundary
+R13
+R14
+!i10b 1
+!s100 `3;RfU1^JT?nof>AU5eia2
+R3
+IImM7L0nN2l16lc2Ioj1_n1
+S1
+R0
+w1748069045
+8D:/modelsim/examples/new fifo/tb_asyncfifo_boundary.sv
+FD:/modelsim/examples/new fifo/tb_asyncfifo_boundary.sv
+!i122 67
+L0 2 130
+R7
+R8
+r1
+!s85 0
+31
+Z16 !s108 1748070714.000000
+!s107 D:/modelsim/examples/new fifo/tb_asyncfifo_boundary.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|D:/modelsim/examples/new fifo/tb_asyncfifo_boundary.sv|
+!i113 0
+R15
+R1
+vtb_asyncfifo_full_empty
+R13
+R14
+!i10b 1
+!s100 hJkdG>a[6ZmE5Oj7T6M?k3
+R3
+I[Tk<o>Bc=Sb?kWaZWTVl<0
+S1
+R0
+w1748068186
+8D:/modelsim/examples/new fifo/tb_asyncfifo_full_empty.sv
+FD:/modelsim/examples/new fifo/tb_asyncfifo_full_empty.sv
+!i122 65
+L0 2 137
+R7
+R8
+r1
+!s85 0
+31
+R16
+!s107 D:/modelsim/examples/new fifo/tb_asyncfifo_full_empty.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|D:/modelsim/examples/new fifo/tb_asyncfifo_full_empty.sv|
+!i113 0
+R15
+R1
+vtb_asyncfifo_random
+R13
+R14
+!i10b 1
+!s100 0J90mW7g;VdIQ_B4C[54n1
+R3
+IiB9okOWdikKcz`>LgI@oO0
+S1
+R0
+w1748070323
+8D:/modelsim/examples/new fifo/tb_asyncfifo_random.sv
+FD:/modelsim/examples/new fifo/tb_asyncfifo_random.sv
+!i122 66
+L0 2 143
+R7
+R8
+r1
+!s85 0
+31
+R16
+!s107 D:/modelsim/examples/new fifo/tb_asyncfifo_random.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|D:/modelsim/examples/new fifo/tb_asyncfifo_random.sv|
+!i113 0
+R15
+R1

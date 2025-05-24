@@ -1,0 +1,66 @@
+module tb_asyncfifo_random #(
+    parameter FIFO_DEPTH = 64  // ??FIFO????
+)(
+    // ?????
+    input  logic tb_wclk,
+    input  logic tb_rclk,
+    input  logic tb_wrst_n,
+    input  logic tb_rrst_n,
+    
+    // FIFO????
+    input  logic wr_full,
+    input  logic rd_empty,
+    input  logic [5:0] wr_usedw,
+    input  logic [5:0] rd_usedw,
+    
+    // ????
+    output logic wr_en,
+    output logic rd_en,
+    
+    // ????
+    output logic [15:0] wr_data,
+    input  logic [15:0] rd_data
+);
+
+// ??????
+logic [5:0] rd_ptr = 0;    // ??????
+logic [15:0] expected_data [0:FIFO_DEPTH-1];
+task automatic test_random_ops(int cycles=2000);
+    int wr_cnt = 0, rd_cnt = 0;
+    fork
+        // ??????
+        forever begin
+            @(posedge tb_wclk iff !wr_full);
+            wr_en = $urandom_range(0,1);
+            if(wr_en) begin
+                wr_data = $urandom();
+                wr_cnt++;
+                if(wr_cnt >= cycles) disable fork;
+            end
+        end
+        
+        // ??????
+        forever begin
+            @(posedge tb_rclk iff !rd_empty);
+            rd_en = $urandom_range(0,1);
+            if(rd_en) begin
+                rd_cnt++;
+                if(rd_cnt >= cycles) disable fork;
+            end
+        end
+        
+        // ???????
+        begin
+            forever @(posedge tb_rclk) begin
+                if(rd_en && !rd_empty)
+                    assert(rd_data === expected_data[rd_ptr])
+                        else $error("Data mismatch at addr %0d", rd_ptr);
+                rd_ptr = (rd_ptr + 1) % FIFO_DEPTH;
+            end
+        end
+        
+        // ?????10ms?
+        #10_000_000 $error("Test timeout");
+    join
+endtask
+endmodule

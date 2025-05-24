@@ -1,0 +1,225 @@
+`timescale 1ns/1ps
+
+module tb_asyncfifo();
+
+//----------------- ???? -------------------
+parameter CLK_CYCLE = 10;       // 100MHz??
+parameter TEST_CYCLES = 2000;   // ??????
+
+//----------------- ???? -------------------
+logic        tb_wclk;
+logic        tb_rclk;
+logic        tb_wrst_n;
+logic        tb_rrst_n;
+logic        wr_en;
+logic        rd_en;
+logic [15:0] wr_data;
+
+//----------------- ???? -------------------
+wire        wr_full;
+wire        wr_empty;
+wire [5:0]  wr_usedw;
+wire [15:0] rd_data;
+wire        rd_full;
+wire        rd_empty;
+wire [5:0]  rd_usedw;
+
+//----------------- ???? -------------------
+initial begin
+    tb_wclk = 1;
+    forever #(CLK_CYCLE/2) tb_wclk = ~tb_wclk;
+end
+
+initial begin
+    tb_rclk = 1;
+    forever #(CLK_CYCLE/2) tb_rclk = ~tb_rclk;
+end
+
+//----------------- ????? -------------------
+covergroup cg_fifo @(posedge tb_wclk);
+    cp_full: coverpoint {wr_full, rd_full} {
+        bins wr_full = {2'b10};
+        bins rd_full = {2'b01};
+    }
+    cp_empty: coverpoint {wr_empty, rd_empty} {
+        bins wr_empty = {2'b10};
+        bins rd_empty = {2'b01};
+    }
+    cp_wr_ops: coverpoint wr_en;
+    cp_rd_ops: coverpoint rd_en;
+    cross_wr_rd: cross cp_wr_ops, cp_rd_ops;
+    
+    cp_boundary: coverpoint wr_usedw {
+        bins empty = {0};
+        bins full  = {64};
+        bins mid   = {[1:63]};
+    }
+endgroup
+
+cg_fifo fifo_cov = new();
+
+//----------------- ????? -------------------
+initial begin
+    initialize();
+    
+    // ????1???/??
+    test_full_empty();
+    reset_fifo();
+    
+    // ????2???????
+    test_random_ops();
+    reset_fifo();
+    
+    // ????3?????
+    test_boundary();
+    
+    #100;
+    $display("Coverage: %.2f%%", fifo_cov.get_inst_coverage());
+
+ 
+  
+    $finish;
+end
+
+//----------------- ???? -------------------
+task initialize();
+    tb_wrst_n = 0;
+    tb_rrst_n = 0;
+    wr_en  = 0;
+    rd_en  = 0;
+    wr_data= 0;
+    #(CLK_CYCLE*5);
+    tb_wrst_n = 1;
+    tb_rrst_n = 1;
+    #(CLK_CYCLE*2);
+endtask
+
+task reset_fifo();
+    tb_wrst_n = 0;
+    tb_rrst_n = 0;
+    #(CLK_CYCLE*2);
+    tb_wrst_n = 1;
+    tb_rrst_n = 1;
+    #(CLK_CYCLE*2);
+endtask
+
+task test_full_empty();
+    automatic int cnt = 0; // ?????
+    // ????
+    $display("=== Full Test ===");
+    repeat(64) begin
+        @(posedge tb_wclk);
+        wr_en = 1;
+        wr_data = $urandom;
+        cnt = cnt + 1;
+        #1;
+        assert(wr_usedw == cnt) else $error("Usedw error");
+    end
+    wr_en = 0;
+    assert(wr_full) else $error("Full flag error");
+    
+    // ????
+    cnt = 0;
+    $display("=== Empty Test ===");
+    repeat(64) begin
+        @(posedge tb_rclk);
+        rd_en = 1;
+        cnt = cnt + 1;
+        #1;
+        assert(rd_usedw == (64 - cnt)) else $error("Usedw error");
+    end
+    rd_en = 0;
+    assert(rd_empty) else $error("Empty flag error");
+endtask
+
+task automatic test_random_ops();
+    int write_cnt = 0;
+    int read_cnt = 0;
+    
+    fork
+        // ???
+        begin
+            while(write_cnt < TEST_CYCLES) begin
+                @(posedge tb_wclk iff !wr_full);
+                wr_en = $urandom_range(0,1) && !wr_full;
+                if(wr_en) begin
+                    wr_data = $urandom();
+                    write_cnt++;
+                end
+                #1;
+            end
+            wr_en = 0;
+        end
+        
+        // ???
+        begin
+            while(read_cnt < TEST_CYCLES) begin
+                @(posedge tb_rclk iff !rd_empty);
+                rd_en = $urandom_range(0,1) && !rd_empty;
+                if(rd_en) read_cnt++;
+                #1;
+            end
+            rd_en = 0;
+        end
+        
+        // ????
+        begin
+            #1000000;
+            $error("Test timeout!");
+            $finish;
+        end
+    join_any
+    disable fork;
+endtask
+
+task test_boundary();
+    // ?????
+    $display("=== Overflow Test ===");
+    repeat(64) write_transaction($urandom());
+    write_transaction($urandom());
+    assert(wr_full && wr_usedw == 64) else $error("Overflow error");
+    
+    // ?????
+    $display("=== Underflow Test ===");
+    repeat(64) read_transaction();
+    read_transaction();
+    assert(rd_empty && rd_usedw == 0) else $error("Underflow error");
+endtask
+
+task write_transaction(input [15:0] data);
+    @(posedge tb_wclk);
+    wr_en = 1;
+    wr_data = data;
+    @(posedge tb_wclk);
+    wr_en = 0;
+endtask
+
+task read_transaction();
+    @(posedge tb_rclk);
+    rd_en = 1;
+    @(posedge tb_rclk);
+    rd_en = 0;
+endtask
+
+//----------------- DUT??? -------------------
+async_fifo #(
+    .FIFO_WIDTH(16),
+    .FIFO_DEPTH(64)
+) dut (
+    .wr_clk      (tb_wclk),
+    .wrst_n      (tb_wrst_n),
+    .rd_clk      (tb_rclk),
+    .rrst_n      (tb_rrst_n),
+    .wr_en       (wr_en),
+    .wr_data     (wr_data),
+    .wr_full     (wr_full),
+    .wr_empty    (wr_empty),
+    .wr_usedw    (wr_usedw),
+    .rd_en       (rd_en),
+    .rd_data     (rd_data),
+    .rd_full     (rd_full),
+    .rd_empty    (rd_empty),
+    .rd_usedw    (rd_usedw)
+);
+
+endmodule

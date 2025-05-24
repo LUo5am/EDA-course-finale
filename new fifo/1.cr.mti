@@ -1,0 +1,17 @@
+{D:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv} {1 {vlog -work work -vopt -sv -stats=none {D:/modelsim/examples/new fifo/tb_asyncfifo_basic.sv}
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module tb_asyncfifo
+
+Top level modules:
+	tb_asyncfifo
+
+} {} {}} {D:/modelsim/examples/new fifo/async_fifo.v} {1 {vlog -work work -vopt -stats=none {D:/modelsim/examples/new fifo/async_fifo.v}
+Model Technology ModelSim SE-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+-- Compiling module async_fifo
+-- Compiling module sync_cell
+-- Compiling module dual_port_ram
+
+Top level modules:
+	async_fifo
+
+} {} {}}
